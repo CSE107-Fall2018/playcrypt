@@ -18,7 +18,7 @@ class WorldSim(BaseSim):
         self.game.initialize(world)
         return self.game.finalize(self.adversary(self.game.fn))
 
-    def compute_success_ratio(self, world):
+    def compute_success_ratio(self, world, trials=1000):
         """
         Tries game in world and computes the ratio of success / total runs.
 
@@ -26,7 +26,7 @@ class WorldSim(BaseSim):
         :return: successes / total_runs
         """
         results = []
-        for i in xrange(0, 1000):
+        for i in xrange(0, trials):
             results += [self.run(world)]
 
         successes = float(results.count(1))
@@ -34,14 +34,14 @@ class WorldSim(BaseSim):
 
         return successes / (successes + failures)
 
-    def compute_advantage(self):
+    def compute_advantage(self, trials=1000):
         """
         Adv = Pr[Real => 1] - Pr[Rand => 1]
 
         :return: Approximate advantage computed using the above equation.
         """
 
-        pr_real_1 = float(self.compute_success_ratio(1))
-        pr_rand_1 = float(1 - self.compute_success_ratio(0))
+        pr_real_1 = float(self.compute_success_ratio(1,trials))
+        pr_rand_1 = float(1 - self.compute_success_ratio(0,trials))
 
         return pr_real_1 - pr_rand_1

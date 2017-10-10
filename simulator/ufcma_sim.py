@@ -19,7 +19,7 @@ class UFCMASim(BaseSim):
 
     def compute_success_ratio(self, n=1000):
         """
-        Runs the game 1000 times and computes the ratio of successful runs
+        Runs the game n times and computes the ratio of successful runs
         over total runs.
 
         :return: successes / total_runs

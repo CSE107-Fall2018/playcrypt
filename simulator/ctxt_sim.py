@@ -16,26 +16,26 @@ class CTXTSim(BaseSim):
         self.adversary(self.game.enc, self.game.dec)
         return self.game.finalize()
 
-    def compute_success_ratio(self):
+    def compute_success_ratio(self, trials=1000):
         """
-        Runs the game 1000 times and computes the ratio of successful runs
+        Runs the game trials times and computes the ratio of successful runs
         over total runs.
 
         :return: successes / total_runs
         """
         results = []
-        for i in xrange(0, 1000):
+        for i in xrange(0, trials):
             results += [self.run()]
 
         successes = float(results.count(True))
         failures = float(results.count(False))
         return successes / (successes + failures)
 
-    def compute_advantage(self):
+    def compute_advantage(self, trials):
         """
         Adv = Pr[UFCMA => True]
 
         :return: Approximate advantage computed using the above equation.
         """
 
-        return self.compute_success_ratio()
+        return self.compute_success_ratio(trials)
