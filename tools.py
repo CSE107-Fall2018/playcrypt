@@ -208,3 +208,81 @@ def exp(a, n, N):
 		r = ((r*r) * (a if (n >> i) & 0x1 else 1)) % N
 
 	return r
+
+def in_Z_N_star(a, N):
+    """
+    Determines whether a is in Z_n^*.
+
+    :param a: number to be checked
+    :param N: N
+    :return: Boolean
+    """
+    if a < 0 or a>=N:
+        return False
+    return(egcd(a,N)[0] == 1)
+
+def random_Z_N_star(N):
+    """
+    Returns the a random element in Z_N^*.
+
+    :param N: N
+    :return: random element
+    """
+    candidate = random.randint(1, N-1)
+
+    while not (in_Z_N_star(candidate, N)):
+        candidate = random.randint(1, N-1)
+
+    return candidate
+
+def random_Z_N(N):
+    """
+    Returns the a random element in Z_N.
+
+    :param N: N
+    :return: random element
+    """
+    return random.randint(0, N-1)
+
+def find_generator_Z_N_star(N, pstatements = False):
+    """
+    Returns a generator of Z_N_star.
+
+    :param N: N
+    :return: The generator.
+    """
+
+    if N == 2:
+        return 1
+
+    if is_prime(N):
+        order = N-1
+        g = 2
+        while g <= N-1:
+            i = 2
+            curr = (g**2) % N
+            works = True
+            while i < order:
+                if curr == 1:
+                    works = False
+                    break
+                i += 1
+                curr = (curr*g) % N
+            if works:
+                return g
+            elif pstatements:
+                print 'Not ' + str(g)
+            g += 1
+    else:
+        ZNstar = set([i for i in range(0,N) if in_Z_N_star(i,N)])
+
+
+
+        for g in ZNstar:
+            S = set([exp(g,i,N) for i in range(0,N)])
+            S = set([i for i in S if in_Z_N_star(i,N)])
+            if len(S.symmetric_difference(ZNstar)) == 0:
+                return g
+            if pstatements:
+                print 'Not ' + str(g)
+        return None
