@@ -13,8 +13,8 @@ class CTXTSim(BaseSim):
         :return: True for success and False for failure.
         """
         self.game.initialize()
-        self.adversary(self.game.enc, self.game.dec)
-        return self.game.finalize()
+        return self.game.finalize(
+        self.adversary(self.game.enc))
 
     def compute_success_ratio(self, trials=1000):
         """
@@ -31,7 +31,7 @@ class CTXTSim(BaseSim):
         failures = float(results.count(False))
         return successes / (successes + failures)
 
-    def compute_advantage(self, trials):
+    def compute_advantage(self, trials=1000):
         """
         Adv = Pr[UFCMA => True]
 

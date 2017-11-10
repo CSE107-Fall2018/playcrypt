@@ -4,7 +4,7 @@ from crypto.primitives import random_string
 
 class GameINTCTXT(Game):
     """
-    This game tests the integrity of a cypher text. It is to be used to test
+    This game tests the integrity of a ciphertext. It is to be used to test
     to see if the decryption algorithm only decrypts authentic messages that
     have been sent by the sender. The Adversary has access to an encryption
     oracle (enc) and a decryption oracle (dec) that it uses to see if it won.
@@ -18,8 +18,7 @@ class GameINTCTXT(Game):
         """
         self._enc, self._dec, self.key_len = encrypt, decrypt, key_len
         self.key = ''
-        self.cyphers = []
-        self.messages = []
+        self.ciphertexts = []
 
     def initialize(self):
         """
@@ -27,8 +26,7 @@ class GameINTCTXT(Game):
         reset game state in between runs.
         """
         self.key = random_string(self.key_len)
-        self.cyphers = []
-        self.messages = []
+        self.ciphertexts = []
         self.win = False
 
     def enc(self, m):
@@ -38,35 +36,18 @@ class GameINTCTXT(Game):
         :param m: Message to be encrypted.
         :return: Cipher text if valid, ``None`` otherwise.
         """
-
-        if m in self.messages:
-            return None
-
-        self.messages += [m]
-
         c = self._enc(self.key, m)
-        self.cyphers += [c]
+        self.ciphertexts += [c]
         return c
 
-    def dec(self, c):
-        """
-        Decryption oracle, you can only query for the same message once.
-
-        :param c: Cipher text to be decrypted.
-        :return: True if decrypted successfully, False otherwise.
-        """
-
-        m = self._dec(self.key, c)
-        if c not in self.cyphers and m is not None:
-            self.win = True
-            return True
-        else:
-            return False
-
-    def finalize(self):
+    def finalize(self, c):
         """
         Method called by simulator to determine if adversary won.
 
         :return: True if win, False otherwise.
         """
-        return self.win
+        m = self._dec(self.key, c)
+        if c not in self.ciphertexts and m is not None:
+            return True
+        else:
+            return False

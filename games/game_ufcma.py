@@ -8,7 +8,7 @@ class GameUFCMA(Game):
     This game is meant to test the security of message authentication schemes.
     Adversaries playing this game have access to a tag and verify oracle.
     """
-    def __init__(self, _tag, _verify, key_len):
+    def __init__(self, _tag, _verify, key_len, key_gen=None):
         """
         :param _tag: This must be a callable python function that returns
                      message tags and takes in a key and message (key should
@@ -22,6 +22,7 @@ class GameUFCMA(Game):
         self._tag, self._verify, self.key_len = _tag, _verify, key_len
         self.key = ''
         self.messages = []
+        self.key_gen = key_gen
 
     def initialize(self):
         """
@@ -29,7 +30,10 @@ class GameUFCMA(Game):
         like to play the game again, usually by the simulator class. Resets
         key and internal storage.
         """
-        self.key = random_string(self.key_len)
+        if self.key_gen is None:
+            self.key = random_string(self.key_len)
+        else:
+            self.key = self.key_gen()
         self.messages = []
         self.win = False
 

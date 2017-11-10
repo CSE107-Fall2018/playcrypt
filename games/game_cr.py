@@ -9,7 +9,7 @@ class GameCR(game.Game):
     they do have access to the key used by the hash function.
     """
 
-    def __init__(self, hash_f, key_len):
+    def __init__(self, hash_f, key_len, key_gen=None):
         """
         :param hash_f: This is the hash function that the adversary is
                        playing against. It must take two parameters, a key
@@ -20,6 +20,7 @@ class GameCR(game.Game):
         self.hash = hash_f
         self.key_len = key_len
         self.key = ''
+        self.key_gen = key_gen
 
     def initialize(self):
         """
@@ -28,7 +29,10 @@ class GameCR(game.Game):
 
         :return: key to be used by hash function.
         """
-        self.key = random_string(self.key_len)
+        if self.key_gen is None:
+            self.key = random_string(self.key_len)
+        else:
+            self.key = self.key_gen()
         return self.key
 
     def finalize(self, (x1, x2)):
@@ -40,6 +44,6 @@ class GameCR(game.Game):
         :param x2: Suspect collision member 2.
         :return: True if collision, false otherwise.
         """
-        if x1 == x2:
+        if x1 == x2 or self.hash(self. key, x1) == None:
             return False
         return self.hash(self. key, x1) == self.hash(self.key, x2)
