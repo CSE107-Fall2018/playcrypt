@@ -1,4 +1,5 @@
 from crypto.primitives import *
+from crypto.tools import *
 
 class HashFunction():
     """
@@ -22,14 +23,15 @@ class HashFunction():
 
         True
     """
-    def __init__(self, out_len, key_len=0):
+    def __init__(self, out_len=0, key_len=0, N=0):
         """
         :param out_len: Output length for the hash function in bytes.
         :param key_len: Key length for the hash function in bytes, defaults
                         to 0.
         """
-        self.key_len, self.out_len = key_len, out_len
+        self.key_len, self.out_len, self.N = key_len, out_len, N
         self.hashes = {}
+        self.hashes_int = {}
 
     def hash(self, message, key=None):
         """
@@ -45,8 +47,29 @@ class HashFunction():
             raise ValueError("Invalid key length, key length was: " + \
                     str(len(key)) + " should be: " + str(self.key_len) + ".")
 
+        if self.out_len == 0:
+            raise ValueError("Invalid output length: length must be nonzero")
 
         if not (key, message) in self.hashes:
             self.hashes[(key, message)] = random_string(self.out_len)
 
         return self.hashes[(key, message)]
+
+    def hash_int(self, message):
+        """
+        This is a simulated hashing function that takes an input in Z_N^* and
+        outputs a value in Z_N^*.
+
+        :param message: Must be an integer in Z_N^*
+        :return: Hash of message if all parameters are met, ``None`` otherwise.
+        """
+        if self.N == 0:
+            raise ValueError("Invalid modulus: modulus must be nonzero")
+
+        if not in_Z_N_star(message, self.N):
+            raise ValueError("Invalid message: message not in Z_N^*.")
+
+        if not message in self.hashes_int:
+            self.hashes_int[message] = random_Z_N_star(self.N)
+
+        return self.hashes_int[message]

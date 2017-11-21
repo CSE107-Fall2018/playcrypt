@@ -29,7 +29,7 @@ class DigitalSignature():
         False
 
     """
-        
+
     def __init__(self, key_len, tag_len):
         """
         :param key_len: Key length for the DS in bytes.
@@ -47,7 +47,7 @@ class DigitalSignature():
         pk = random_string(self.key_len)
         sk = random_string(self.key_len)
 
-        self.keys[sk] = pk
+        self.keys[pk] = sk
 
         return pk, sk
 
