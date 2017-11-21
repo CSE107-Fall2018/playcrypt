@@ -14,9 +14,9 @@ class GameUFCMASign(Game):
                      signatures and takes in a secret key and message (key
                      should be of length key_len).
         :param _verify: This must be a callable python function that returns
-                        1 when a tag is valid and 0 when it is not. Its
-                        parameters should be key, message, and signature.
-        :param key_len: This is the length of the key in bytes.
+                        1 when a signature is valid and 0 when it is not. Its
+                        parameters should be public key, message, and signature.
+        :param key_len: This is the length of the keys in bytes.
         """
         super(GameUFCMASign, self).__init__()
         self._sign, self._verify, self.key_len = _sign, _verify, key_len
@@ -29,7 +29,7 @@ class GameUFCMASign(Game):
         """
         Initializes the game and resets the state. Called every time you would
         like to play the game again, usually by the simulator class. Resets
-        key and internal storage.
+        keys and internal storage.
         """
         if self.key_gen is None:
             self.pk = random_string(self.key_len)
@@ -43,15 +43,13 @@ class GameUFCMASign(Game):
         """
         This is the sign oracle that the adversary has access to.
 
-        :param message: Message to be tagged.
-        :return: Tag of ``message``.
+        :param message: Message to be signed.
+        :return: Signature of ``message``.
         """
         s = self._sign(self.sk, message)
         self.messages += [message]
         return s
 
-
-    # def finalize(self, (message, signature)):
     def finalize(self, input):
         """
         This method is usually called automatically by the simulator class
