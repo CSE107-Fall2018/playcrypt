@@ -207,7 +207,7 @@ def exp(a, n, N):
 	for i in range(n.bit_length() - 1, -1, -1):
 		r = ((r*r) * (a if (n >> i) & 0x1 else 1)) % N
 
-	return r
+	return r % N
 
 def in_Z_N_star(a, N):
     """
