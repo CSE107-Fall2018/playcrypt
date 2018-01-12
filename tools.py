@@ -55,7 +55,7 @@ def split(s, n=None):
 
     .. testcode::
 
-        from crypto.tools import split
+        from playcrypt.tools import split
 
         print split("ABCDEF", 1)
         print split("ABCDEF", 2)

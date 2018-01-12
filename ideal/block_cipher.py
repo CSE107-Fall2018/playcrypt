@@ -1,4 +1,4 @@
-from crypto.primitives import *
+from playcrypt.primitives import *
 
 class BlockCipher():
     """
@@ -9,8 +9,8 @@ class BlockCipher():
 
     .. testcode::
 
-        from crypto.primitives import *
-        from crypto.ideal.block_cipher import BlockCipher
+        from playcrypt.primitives import *
+        from playcrypt.ideal.block_cipher import BlockCipher
 
         b = BlockCipher(16, 12)
         key = random_string(16)

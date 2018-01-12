@@ -1,4 +1,4 @@
-from crypto.games.game import Game
+from playcrypt.games.game import Game
 
 
 class GameBIND(Game):

@@ -1,5 +1,5 @@
 
-from crypto.simulator.base_sim import BaseSim
+from playcrypt.simulator.base_sim import BaseSim
 
 
 class BINDSim(BaseSim):

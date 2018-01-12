@@ -1,4 +1,4 @@
-from crypto.games.game_lr import GameLR
+from playcrypt.games.game_lr import GameLR
 
 
 class GameCCA(GameLR):

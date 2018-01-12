@@ -1,5 +1,5 @@
-from crypto.games.game import Game
-from crypto.primitives import random_string
+from playcrypt.games.game import Game
+from playcrypt.primitives import random_string
 
 
 class GameKR(Game):

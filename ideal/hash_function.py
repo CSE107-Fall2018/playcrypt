@@ -1,5 +1,5 @@
-from crypto.primitives import *
-from crypto.tools import *
+from playcrypt.primitives import *
+from playcrypt.tools import *
 
 class HashFunction():
     """
@@ -10,7 +10,7 @@ class HashFunction():
 
     .. testcode::
 
-        from crypto.ideal.hash_function import HashFunction
+        from playcrypt.ideal.hash_function import HashFunction
 
         h = HashFunction(16)
 

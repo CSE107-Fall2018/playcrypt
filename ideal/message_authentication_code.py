@@ -1,4 +1,4 @@
-from crypto.primitives import *
+from playcrypt.primitives import *
 
 class MAC():
     """
@@ -9,7 +9,7 @@ class MAC():
 
     .. testcode::
 
-        from crypto.ideal.message_authentication_code import MAC
+        from playcrypt.ideal.message_authentication_code import MAC
 
         m = "ABCDEFGH"
         k = "A" * 16

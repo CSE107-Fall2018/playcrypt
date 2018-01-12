@@ -1,7 +1,7 @@
 import random
 
-from crypto.primitives import random_string
-from crypto.games.game import Game
+from playcrypt.primitives import random_string
+from playcrypt.games.game import Game
 
 
 class GameLR(Game):

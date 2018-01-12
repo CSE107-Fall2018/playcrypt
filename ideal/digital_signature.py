@@ -1,4 +1,4 @@
-from crypto.primitives import *
+from playcrypt.primitives import *
 
 class DigitalSignature():
     """
@@ -9,7 +9,7 @@ class DigitalSignature():
 
     .. testcode::
 
-        from crypto.ideal.digital_signature import DigitalSignature
+        from playcrypt.ideal.digital_signature import DigitalSignature
 
         m = "ABCDEFGH" * 16
         k = "A" * 128

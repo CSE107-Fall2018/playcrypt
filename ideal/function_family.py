@@ -1,4 +1,4 @@
-from crypto.primitives import *
+from playcrypt.primitives import *
 
 class FunctionFamily():
     """
@@ -9,8 +9,8 @@ class FunctionFamily():
 
     .. testcode::
 
-        from crypto.primitives import *
-        from crypto.ideal.function_family import FunctionFamily
+        from playcrypt.primitives import *
+        from playcrypt.ideal.function_family import FunctionFamily
 
         b = FunctionFamily(16, 12, 10)
         key = random_string(16)
