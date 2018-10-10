@@ -10,7 +10,7 @@ class GamePRF(Game):
     pseudo-random function or not. Adversaries playing this game have
     access to an fn oracle.
     """
-    def __init__(self, prf, key_len, input_len, output_len=None):
+    def __init__(self, required_queries, prf, key_len, input_len, output_len=None):
         """
         :param prf: This must be a callable python function that takes two
                     inputs, k and x where k is a key of length key_len and x is a
@@ -26,13 +26,14 @@ class GamePRF(Game):
                            that will be used in this game.
         """
         super(GamePRF, self).__init__()
-        self.prf, self.key_len, self.input_len = prf, key_len, input_len
+        self.required_queries, self.prf, self.key_len, self.input_len = required_queries, prf, key_len, input_len
         if output_len == None:
             self.output_len = input_len
         else:
             self.output_len = output_len
         self.key = ''
         self.messages = {}
+        self.answered_queries = 0
         self.world = None
 
     def initialize(self, world=None):
@@ -65,6 +66,8 @@ class GamePRF(Game):
         if len(m) is not self.input_len:
             raise ValueError("Message is of length " + str(len(m)) + \
                     " but should be " + str(self.input_len) + ".")
+        
+        self.answered_queries += 1
         if self.world == 0:
             if m not in self.messages.keys():
                 self.messages[m] = random_string(self.output_len)
@@ -81,4 +84,7 @@ class GamePRF(Game):
                       or 1.
         :return: True if guess is correct, false otherwise.
         """
+        
+        if self.required_queries != self.answered_queries:
+            raise ValueError("The adversary made " + str(self.answered_queries) + " queries to its Fn oracle. It is required to make exactly " + str(self.required_queries) + " call(s) to Fn.")
         return guess == self.world

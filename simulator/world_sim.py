@@ -41,7 +41,12 @@ class WorldSim(BaseSim):
         :return: Approximate advantage computed using the above equation.
         """
 
-        pr_real_1 = float(self.compute_success_ratio(1,trials))
-        pr_rand_1 = float(1 - self.compute_success_ratio(0,trials))
+        try:
+            pr_real_1 = float(self.compute_success_ratio(1,trials))
+            pr_rand_1 = float(1 - self.compute_success_ratio(0,trials))
+        except ValueError as error:
+            print(error)
+            print('As the result of the error, the advantage is set to 0.')
+            pr_real_1 = pr_rand_1 = 0
 
         return pr_real_1 - pr_rand_1

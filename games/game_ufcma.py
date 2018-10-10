@@ -8,7 +8,7 @@ class GameUFCMA(Game):
     This game is meant to test the security of message authentication schemes.
     Adversaries playing this game have access to a tag and verify oracle.
     """
-    def __init__(self, _tag, _verify, key_len, key_gen=None):
+    def __init__(self, _max_queries, _tag, _verify, key_len, key_gen=None):
         """
         :param _tag: This must be a callable python function that returns
                      message tags and takes in a key and message (key should
@@ -19,7 +19,7 @@ class GameUFCMA(Game):
         :param key_len: This is the length of the key used by the MAC in bytes.
         """
         super(GameUFCMA, self).__init__()
-        self._tag, self._verify, self.key_len = _tag, _verify, key_len
+        self.max_queries, self._tag, self._verify, self.key_len = _max_queries, _tag, _verify, key_len
         self.key = ''
         self.messages = []
         self.key_gen = key_gen
@@ -58,6 +58,9 @@ class GameUFCMA(Game):
         """
         if message is None or tag is None:
             return False
+			
+        if len(self.messages) > self.max_queries:
+            raise ValueError("The adversary must make at most 3 LR queries.")
 
         d = self._verify(self.key, message, tag)
         if message not in self.messages and d == 1:
