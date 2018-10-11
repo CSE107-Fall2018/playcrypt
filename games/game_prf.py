@@ -33,7 +33,6 @@ class GamePRF(Game):
             self.output_len = output_len
         self.key = ''
         self.messages = {}
-        self.answered_queries = 0
         self.world = None
 
     def initialize(self, world=None):
@@ -46,6 +45,7 @@ class GamePRF(Game):
                       more exact simulation measurements.
         :return:
         """
+        self.answered_queries = 0
         self.messages = {}
         self.key = random_string(self.key_len)
         if world is None:
