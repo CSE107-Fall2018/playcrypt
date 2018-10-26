@@ -60,7 +60,7 @@ class GameUFCMA(Game):
             return False
 			
         if len(self.messages) > self.max_queries:
-            raise ValueError("The adversary must make at most 3 LR queries.")
+            raise ValueError("The adversary must make at most " + str(self.max_queries) + " LR queries.")
 
         d = self._verify(self.key, message, tag)
         if message not in self.messages and d == 1:
